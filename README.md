@@ -44,7 +44,8 @@ The platform connects collectors, sellers, and buyers in a secure and user-frien
 ## 🛠️ Tech Stack
 
 **Frontend**  
-- HTML5, CSS3, JavaScript (Vanilla JS)
+- HTML5, CSS3, JavaScript (Vanilla JS)  
+- Bootstrap 5 for responsive design and UI components
 
 **Backend**  
 - Spring Boot (Java)  
