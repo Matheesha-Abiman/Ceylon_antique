@@ -56,6 +56,7 @@ The platform connects collectors, sellers, and buyers in a secure and user-frien
 ![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232828.png)
 ![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232849.png)
 ![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232917.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/c182016096ea1f3488c728bd4aa5e80e5029c038/Screenshot%202025-09-22%20013000.png)
 *Manage users, antiques, and transactions.*
 
 **SMTP Email Notifications**  
@@ -81,6 +82,11 @@ The platform connects collectors, sellers, and buyers in a secure and user-frien
 - MySQL
 
 ---
+
+## 🎥 Demo Video
+
+[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://youtu.be/7l8HuQEtIYk?si=y4dbRVOmDEac1lkb)  
+*Click above to watch the demo of Ceylon Antique Marketplace on YouTube.*
 
 ## ⚙️ Setup Instructions
 
