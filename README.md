@@ -21,24 +21,45 @@ The platform connects collectors, sellers, and buyers in a secure and user-frien
 
 ## 📸 Screenshots
 
-**Login Page**  
-![Login Page](screenshots/login.png)  
+**Login Pages**  
+![Login Page](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231125.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231149.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231245.png)
 *Secure login and registration using JWT authentication.*
 
 **User Side Pages**  
-![Listings Page](screenshots/listings.png)  
+![Listings Page](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231350.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231421.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231448.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231552.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231734.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231853.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232150.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232222.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232330.png)
 *Browse, search, filter, select antiques, and add them to the cart.* 
 
-**Admin Dashboard**  
-![Admin Dashboard](screenshots/admin_dashboard.png)  
-*Manage users, antiques, and transactions.*
-
 **Payment Integration (PayHere)**  
-![Payment Page](screenshots/payment.png)  
+![Payment Page](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20231916.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232056.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232119.png)
+![]()
 *Secure online payment processing with PayHere.*
 
+**Admin Dashboard**  
+![Admin Dashboard](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232555.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232623.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232647.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232739.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232806.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232937.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232828.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232849.png)
+![](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20232917.png)
+*Manage users, antiques, and transactions.*
+
 **SMTP Email Notifications**  
-![Email Notification](screenshots/email_notification.png)  
+![Email Notification](https://github.com/Matheesha-Abiman/Ceylon_antique/blob/d92cc6ef64d7a539aa74024dd2193e04d62f22b9/Screenshot%202025-09-21%20235134.png)  
 *Automated email notifications for registrations, purchases, and alerts.*
 
 ---
