@@ -9,9 +9,11 @@ The platform connects collectors, sellers, and buyers in a secure and user-frien
 - 🔑 **User Authentication** – Secure login & registration with **JWT**
 - 🛍️ **Antique Listings** – Add, edit, and browse antique items
 - 🔎 **Search & Filter** – Find antiques by category, price, or era
+- 📄 **Pagination** – Browse antiques with data divided into pages for better performance
+- 📝 **Order Records** – Keep track of user purchases and transaction history
 - 💳 **Payment Integration** – Pay online securely via **PayHere**
 - 📧 **Email Notifications** – Automated emails using **SMTP**
-- 🛡️ **Admin Dashboard** – Manage users, antiques, and transactions
+- 🛡️ **Admin Dashboard** – Manage users, antiques, orders, and payments
 - 🤖 **Chatbot Assistant** – Interactive chatbot to guide users and answer questions
 - 📱 **Responsive UI** – Built with **HTML, CSS, JavaScript**
 
