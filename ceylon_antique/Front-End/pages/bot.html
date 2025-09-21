@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ceylon Antiques - AI Assistant</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+
+    .ai-assistant {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .ai-assistant:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.6);
+    }
+
+    .ai-assistant.open {
+      transform: scale(0);
+      opacity: 0;
+    }
+
+    .chat-container {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 350px;
+      height: 450px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px) scale(0.9);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chat-container.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .chat-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 10px 15px;
+      border-radius: 18px;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .message.user {
+      background-color: #f0f0f0;
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+    }
+
+    .message.bot {
+      background-color: #6c5ce7;
+      color: white;
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 15px;
+      border-top: 1px solid #eee;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      outline: none;
+    }
+
+    .chat-input button {
+      background: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<!-- Your existing header, hero section, etc. -->
+
+<!-- AI Assistant (Chat Bot) -->
+<div class="ai-assistant">
+  <i class='bx bx-home'></i>
+</div>
+
+<!-- Chat Container -->
+<div class="chat-container" id="chatContainer">
+  <div class="chat-header">
+    <h3>AI Assistant</h3>
+    <button class="chat-close" id="chatClose">
+      <i class='bx bx-x'></i>
+    </button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="message bot">
+      Hello! I'm your AI assistant. How can I help you with antique shopping today?
+    </div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Type your message...">
+    <button id="chatSend">
+      <i class='bx bx-send'></i>
+    </button>
+  </div>
+</div>
+
+<!-- Your existing footer -->
+
+<script src="../js/bot.js"></script>
+</body>
+</html>

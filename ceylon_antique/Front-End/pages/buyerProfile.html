@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Profile - Ceylon Antique Marketplace</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #7B68EE;
+            --accent: #00CED1;
+            --neutral-light: #0F172A;
+            --neutral-dark: #1E293B;
+            --text: #F1F5F9;
+            --text-light: #CBD5E1;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--neutral-light), var(--neutral-dark));
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            color: var(--text);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+        }
+
+        .btn-close {
+            filter: invert(1);
+        }
+
+        .list-group-item {
+            border: none;
+            padding-left: 0;
+        }
+        a.home {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        a.home:hover {
+            color: var(--primary-light);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Profile Card -->
+    <a class="home" href="buyerHome.html">
+        <i class='bx bx-home'></i> Home
+    </a>
+    <div class="card p-4 mb-4 text-center">
+        <div class="d-flex justify-content-center mb-3">
+            <img src="https://placehold.co/400" onerror="this.src='https://placehold.co/400'" id="profileImage" class="profile-pic" alt="Profile Picture">
+        </div>
+        <h3 id="profileName">James Wilson</h3>
+        <p class="text-light mb-1" id="profileTitle">Antique Collector & Enthusiast</p>
+        <p><i class="bx bx-map"></i> <span id="profileLocation">Colombo, Sri Lanka</span></p>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h5><i class="bx bx-user"></i> Personal Info</h5>
+                <p><strong>Email:</strong> <span id="profileEmail">james.wilson@email.com</span></p>
+                <p><strong>Phone:</strong> <span id="profilePhone">+94 77 123 4567</span></p>
+                <p><strong>DOB:</strong> <span id="profileDob">15 Jan 1985</span></p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h5><i class="bx bx-map"></i> Address</h5>
+                <p><strong>Street:</strong> <span id="profileStreet">123 Galle Road</span></p>
+                <p><strong>City:</strong> <span id="profileCity">Colombo</span></p>
+                <p><strong>Postal Code:</strong> <span id="profilePostal">00300</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card p-3 mt-4">
+        <h5><i class="bx bx-time"></i> Recent Activity</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item bg-transparent text-light">Purchased Vintage Cabinet - 2h ago</li>
+            <li class="list-group-item bg-transparent text-light">Left a Review - 1d ago</li>
+            <li class="list-group-item bg-transparent text-light">Added Painting to Wishlist - 3d ago</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <!-- Profile Picture Upload -->
+                    <div class="mb-3 text-center">
+                        <img src="https://via.placeholder.com/120" id="previewImage" class="profile-pic mb-2" alt="Preview">
+                        <input type="file" id="inputImage" class="form-control" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="inputName" class="form-control" value="James Wilson">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" id="inputTitle" class="form-control" value="Antique Collector & Enthusiast">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Location</label>
+                        <input type="text" id="inputLocation" class="form-control" value="Colombo, Sri Lanka">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="inputEmail" class="form-control" value="james.wilson@email.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" id="inputPhone" class="form-control" value="+94 77 123 4567">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">DOB</label>
+                        <input type="date" id="inputDob" class="form-control" value="1985-01-15">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Street</label>
+                        <input type="text" id="inputStreet" class="form-control" value="123 Galle Road">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">City</label>
+                        <input type="text" id="inputCity" class="form-control" value="Colombo">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Postal Code</label>
+                        <input type="text" id="inputPostal" class="form-control" value="00300">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+<script>
+
+    let userData = JSON.parse(sessionStorage.getItem('user'));
+    const API_BASE_URL = 'http://localhost:8080/api/v1/user';
+    const API_BASE_URL_ROOT = 'http://localhost:8080';
+
+    document.addEventListener('DOMContentLoaded', async function () {
+      await reFetchUserData()
+      await loadRecentActivity();
+    })
+
+    const updateHTML = (data) => {
+      if (data) {
+        // Fill inputs
+        document.getElementById("inputName").value = data.username || "";
+        document.getElementById("inputTitle").value = data.title || "";
+        document.getElementById("inputLocation").value = data.address || "";
+        document.getElementById("inputEmail").value = data.email || "";
+        document.getElementById("inputPhone").value = data.phone || "";
+
+        document.getElementById("inputDob").value = data.dob
+          ? new Date(data.dob).toISOString().split("T")[0]
+          : "";
+
+        document.getElementById("inputStreet").value = data.street || "";
+        document.getElementById("inputCity").value = data.city || "";
+        document.getElementById("inputPostal").value = data.postalCode || "";
+
+        // Fill profile display
+        document.getElementById("profileName").innerText = data.username || "";
+        document.getElementById("profileTitle").innerText = data.title || "";
+        document.getElementById("profileLocation").innerText = data.address || "";
+        document.getElementById("profileEmail").innerText = data.email || "";
+        document.getElementById("profilePhone").innerText = data.phone || "";
+        document.getElementById("profileDob").innerText = data.dob
+          ? new Date(data.dob).toLocaleDateString()
+          : "";
+        document.getElementById("profileStreet").innerText = data.street || "";
+        document.getElementById("profileCity").innerText = data.city || "";
+        document.getElementById("profilePostal").innerText = data.postalCode || "";
+        document.getElementById("profileImage").src = data.imageUrl;
+        document.getElementById("previewImage").src = data.imageUrl;
+
+      }
+    }
+
+    async function loadRecentActivity() {
+      try {
+        const response = await fetch(`${API_BASE_URL_ROOT}/api/v1/orders/user/${userData.id}`);
+        if (!response.ok) throw new Error("Failed to fetch orders");
+
+        let orders = await response.json();
+
+        // sort by id descending
+        orders.sort((a, b) => b.id - a.id);
+
+        const list = document.querySelector(".list-group");
+        list.innerHTML = ""; // clear old content
+
+        if (orders.length === 0) {
+          list.innerHTML = `<li class="list-group-item bg-transparent text-light">No recent activity</li>`;
+          return;
+        }
+
+        orders.forEach(order => {
+          const li = document.createElement("li");
+          li.className = "list-group-item bg-transparent text-light";
+          li.textContent = `Purchased ${order.products.map(p => p.productName).join(", ")} - Order #${order.id}`;
+          list.appendChild(li);
+        });
+      } catch (error) {
+        console.error("Error loading recent activity:", error);
+      }
+    }
+
+
+    // Preview uploaded image
+    document.getElementById("inputImage").addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                document.getElementById("previewImage").src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Save form data to profile card
+    document.getElementById("editProfileForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const fileInput = document.getElementById("inputImage");
+      let imageUrl = userData.imageUrl;
+
+      if (fileInput.files && fileInput.files[0]) {
+        imageUrl = await uploadImage(fileInput.files[0]);
+      }
+      const updateData = {
+        username: document.getElementById("inputName").value,
+        title: document.getElementById("inputTitle").value,
+        address: document.getElementById("inputLocation").value,
+        email: document.getElementById("inputEmail").value,
+        phone: document.getElementById("inputPhone").value,
+        dob: document.getElementById("inputDob").value, // keep as yyyy-mm-dd for backend
+        street: document.getElementById("inputStreet").value,
+        city: document.getElementById("inputCity").value,
+        postalCode: document.getElementById("inputPostal").value,
+        role: userData.role,
+        imageUrl: imageUrl
+      };
+
+      try {
+
+        const response = await fetch(`${API_BASE_URL}/updateuser/${userData.id}`, {
+          method: "PUT",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updateData)
+        });
+
+        if (response.ok) {
+          await response.json();
+          await reFetchUserData()
+          showSuccess(`User Updated successfully!`);
+        } else {
+          showError(`Failed to update User`);
+        }
+      } catch (error) {
+        console.error('Error saving User:', error);
+        showError('Error saving User: ' + error.message);
+      }
+
+      // Close modal
+      var modal = bootstrap.Modal.getInstance(document.getElementById("editProfileModal"));
+      modal.hide();
+    });
+
+    async function uploadImage(file) {
+
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          resolve(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    async function reFetchUserData() {
+      const token = getCookie('token');
+      try {
+        const response2 = await fetch(`${API_BASE_URL_ROOT}/auth/me`, {
+          headers: {'Authorization': `Bearer ${token}`}
+        });
+
+        if (response2.ok) {
+          const data2 = await response2.json();
+          console.log(data2);
+          sessionStorage.setItem('user', JSON.stringify(data2.data));
+          userData = data2.data
+          updateHTML(userData);
+        }
+      } catch (error) {
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        console.error('Role check failed:', error);
+      }
+    }
+
+    function showSuccess(message) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: message,
+        timer: 2000,
+        showConfirmButton: false
+      });
+    }
+
+    function showError(message) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: message,
+        timer: 3000
+      });
+    }
+</script>
+</body>
+</html>

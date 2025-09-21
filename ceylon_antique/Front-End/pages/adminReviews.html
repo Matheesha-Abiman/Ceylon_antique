@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews Management - Admin Panel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --danger-color: #e63946;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fb;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            padding: 0;
+            z-index: 1000;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            margin: 10px 0 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: white;
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .search-bar input {
+            padding-left: 35px;
+            border-radius: 20px;
+            border: 1px solid #ced4da;
+            height: 40px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .notification {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification span {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Page Header Styles */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Dashboard Widgets */
+        .dashboard-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .widget {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+
+        .widget-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+
+        .widget-1 .widget-icon { background-color: rgba(67, 97, 238, 0.1); color: var(--primary-color); }
+        .widget-2 .widget-icon { background-color: rgba(76, 201, 240, 0.1); color: var(--success-color); }
+        .widget-3 .widget-icon { background-color: rgba(247, 37, 133, 0.1); color: var(--warning-color); }
+        .widget-4 .widget-icon { background-color: rgba(230, 57, 70, 0.1); color: var(--danger-color); }
+
+        .widget-info h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .widget-info p {
+            margin: 5px 0 0;
+            color: #6c757d;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filters select, .filters input {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Comment Styles */
+        .comment {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Rating Styles */
+        .rating {
+            color: #ffc107;
+        }
+
+        /* Status Badges */
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status.approved { background-color: #d4edda; color: #155724; }
+        .status.pending { background-color: #fff3cd; color: #856404; }
+        .status.rejected { background-color: #f8d7da; color: #721c24; }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .approve-btn { background-color: rgba(28, 200, 138, 0.1); color: #1cc88a; }
+        .approve-btn:hover { background-color: #1cc88a; color: white; }
+
+        .reject-btn { background-color: rgba(231, 74, 59, 0.1); color: #e74a3b; }
+        .reject-btn:hover { background-color: #e74a3b; color: white; }
+
+        .delete-btn { background-color: rgba(108, 117, 125, 0.1); color: #6c757d; }
+        .delete-btn:hover { background-color: #6c757d; color: white; }
+
+        /* Table Actions */
+        .table-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .table-actions select {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+
+        .pagination .btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .pagination .btn.active, .pagination .btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Review Detail Styles */
+        .review-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .review-product h3 {
+            margin: 0 0 10px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .review-user img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-info h4 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .user-info p {
+            margin: 0;
+            color: #6c757d;
+        }
+
+        .review-content h4 {
+            margin: 0 0 10px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .review-content p {
+            line-height: 1.6;
+            color: #495057;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .review-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            color: var(--dark-color);
+        }
+
+        /* Toast Styles */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1200;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+        .toast.info { background-color: #17a2b8; }
+
+        .toast .icon {
+            font-size: 1.2rem;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100px); opacity: 0; }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error Message */
+        .error-message {
+            color: var(--danger-color);
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(230, 57, 70, 0.1);
+            border-radius: 4px;
+            margin: 20px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block !important;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 900;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .header {
+                padding-left: 70px;
+            }
+
+            .review-header {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-widgets {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filters {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .search-bar {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .user-profile {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .table-actions {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .review-meta {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile Menu Toggle -->
+<button class="menu-toggle d-lg-none" id="menuToggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<div class="container-fluid p-0">
+    <div class="row g-0">
+        <!-- Sidebar -->
+        <div class="sidebar col-lg-2 d-none d-lg-block" id="sidebar">
+            <div class="sidebar-header"><i class="fas fa-chart-line fa-2x"></i><h2>Admin Panel</h2></div>
+            <div class="sidebar-menu">
+                <a class="menu-item" href="adminDashboard.html"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                <a class="menu-item" href="user.html"><i class="fas fa-users"></i><span>Users</span></a>
+                <a class="menu-item" href="adminProducts.html"><i class="fas fa-box"></i><span>Products</span></a>
+                <a class="menu-item" href="adminOrder.html"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
+                <a class="menu-item" href="adminDashboardAdds.html"><i class="fas fa-ad"></i><span>Advertisements</span></a>
+                <a class="menu-item" href="adminBlogs.html"><i class="fas fa-blog"></i><span>Blog</span></a>
+                <a class="menu-item active" href="adminReviews.html"><i class="fas fa-star"></i><span>Reviews</span></a>
+                <a class="menu-item" href="adminPayment.html"><i class="fas fa-credit-card"></i><span>Payments</span></a>
+                <a class="menu-item" href="adminSettings.html"><i class="fas fa-cog"></i><span>Settings</span></a>
+                <a class="menu-item" href="adminHelp.html"><i class="fas fa-question-circle"></i><span>Help</span></a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content col-lg-10">
+            <!-- Header -->
+            <div class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-control" placeholder="Search reviews..." id="searchInput">
+                </div>
+                <div class="user-profile">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span>3</span>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin User">
+                    <span>Admin User</span>
+                </div>
+            </div>
+
+            <!-- Page Title and Action Buttons -->
+            <div class="page-header">
+                <h1>Reviews Management</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="exportBtn">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button class="btn btn-success" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reviews Statistics -->
+            <div class="dashboard-widgets">
+                <div class="widget widget-1">
+                    <div class="widget-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="widget-info">
+                        <h3 id="totalReviews">0</h3>
+                        <p>Total Reviews</p>
+                    </div>
+                </div>
+                <div class="widget widget-2">
+                    <div class="widget-icon">
+                        <i class="fas fa-thumbs-up"></i>
+                    </div>
+                    <div class="widget-info">
+                        <h3 id="averageRating">0.0</h3>
+                        <p>Average Rating</p>
+                    </div>
+                </div>
+                <div class="widget widget-3">
+                    <div class="widget-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="widget-info">
+                        <h3 id="approvedReviews">0</h3>
+                        <p>Approved Reviews</p>
+                    </div>
+                </div>
+                <div class="widget widget-4">
+                    <div class="widget-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="widget-info">
+                        <h3 id="pendingReviews">0</h3>
+                        <p>Pending Reviews</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Table -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>All Reviews</h2>
+                    <div class="filters">
+                        <select id="statusFilter" class="form-select">
+                            <option value="">All Statuses</option>
+                            <option value="APPROVED">Approved</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="REJECTED">Rejected</option>
+                        </select>
+                        <select id="ratingFilter" class="form-select">
+                            <option value="">All Ratings</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="2">2 Stars</option>
+                            <option value="1">1 Star</option>
+                        </select>
+                        <input type="text" class="form-control" placeholder="Search..." id="tableSearch">
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="table data-table">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>Review ID</th>
+                            <th>Product/Service</th>
+                            <th>User</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="reviewsTableBody">
+                        <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-actions">
+                    <select id="bulkAction" class="form-select">
+                        <option value="">Bulk Actions</option>
+                        <option value="approve">Approve</option>
+                        <option value="reject">Reject</option>
+                        <option value="delete">Delete</option>
+                    </select>
+                    <button class="btn btn-primary" id="applyBulkAction">Apply</button>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn" id="prevPage"><i class="fas fa-chevron-left"></i></button>
+                    <div id="paginationNumbers"></div>
+                    <button class="btn" id="nextPage"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Review Detail Modal -->
+<div class="modal" id="reviewModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">Review Details</h2>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="review-detail">
+                <div class="review-header">
+                    <div class="review-product">
+                        <h3 id="modalProductName"></h3>
+                        <div class="rating" id="modalRating">
+                        </div>
+                    </div>
+                    <div class="review-user">
+                        <img id="modalUserImage" src="" alt="User">
+                        <div class="user-info">
+                            <h4 id="modalUserName"></h4>
+                            <p id="modalUserEmail"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-content">
+                    <h4>Comment</h4>
+                    <p id="modalComment"></p>
+                </div>
+
+                <div class="review-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Submitted:</span>
+                        <span class="meta-value" id="modalDate"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Status:</span>
+                        <span class="status" id="modalStatus"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" id="approveBtn">Approve</button>
+            <button class="btn btn-danger" id="rejectBtn">Reject</button>
+            <button class="btn btn-secondary" id="closeBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const API_BASE_URL = 'http://localhost:8080/api/v1/review';
+        let allReviews = [];
+        let currentPage = 1;
+        const reviewsPerPage = 10;
+        let selectedReviews = new Set();
+        let currentFilters = {
+            status: '',
+            rating: '',
+            search: ''
+        };
+
+        // =======================
+        // Initialize the page
+        // =======================
+        init();
+
+        async function init() {
+            await loadReviews();
+            setupEventListeners();
+            updateStatistics();
+        }
+
+        // =======================
+        // API Functions
+        // =======================
+        async function fetchReviews() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/getreviews`);
+                if (!response.ok) throw new Error('Failed to fetch reviews');
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+                showNotification('Failed to load reviews', 'error');
+                return [];
+            }
+        }
+
+        async function approveReview(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/approve/${id}`, {
+                    method: 'PUT'
+                });
+                if (!response.ok) throw new Error('Failed to approve review');
+                return await response.json();
+            } catch (error) {
+                console.error('Error approving review:', error);
+                throw error;
+            }
+        }
+
+        async function rejectReview(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/reject/${id}`, {
+                    method: 'PUT'
+                });
+                if (!response.ok) throw new Error('Failed to reject review');
+                return await response.json();
+            } catch (error) {
+                console.error('Error rejecting review:', error);
+                throw error;
+            }
+        }
+
+        async function deleteReview(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/deletereview/${id}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) throw new Error('Failed to delete review');
+                return await response.json();
+            } catch (error) {
+                console.error('Error deleting review:', error);
+                throw error;
+            }
+        }
+
+        // =======================
+        // Data Loading
+        // =======================
+        async function loadReviews() {
+            showLoading();
+            allReviews = await fetchReviews();
+            hideLoading();
+            applyFilters();
+            renderTable();
+            setupPagination();
+        }
+
+        function applyFilters() {
+            let filteredReviews = [...allReviews];
+
+            // Apply status filter
+            if (currentFilters.status) {
+                filteredReviews = filteredReviews.filter(review =>
+                    review.status === currentFilters.status
+                );
+            }
+
+            // Apply rating filter
+            if (currentFilters.rating) {
+                filteredReviews = filteredReviews.filter(review =>
+                    review.rating === parseInt(currentFilters.rating)
+                );
+            }
+
+            // Apply search filter
+            if (currentFilters.search) {
+                const searchTerm = currentFilters.search.toLowerCase();
+                filteredReviews = filteredReviews.filter(review =>
+                    (review.productName && review.productName.toLowerCase().includes(searchTerm)) ||
+                    (review.userName && review.userName.toLowerCase().includes(searchTerm)) ||
+                    (review.reviewText && review.reviewText.toLowerCase().includes(searchTerm)) ||
+                    (review.commentText && review.commentText.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            return filteredReviews;
+        }
+
+        // =======================
+        // UI Rendering
+        // =======================
+        function renderTable() {
+            const tableBody = document.getElementById('reviewsTableBody');
+            const filteredReviews = applyFilters();
+            const startIndex = (currentPage - 1) * reviewsPerPage;
+            const endIndex = Math.min(startIndex + reviewsPerPage, filteredReviews.length);
+            const pageReviews = filteredReviews.slice(startIndex, endIndex);
+
+            if (pageReviews.length === 0) {
+                tableBody.innerHTML = `
+                <tr>
+                    <td colspan="9" class="text-center py-4">
+                        <i class="fas fa-inbox fa-3x text-muted mb-2"></i>
+                        <p class="text-muted">No reviews found</p>
+                    </td>
+                </tr>
+            `;
+                return;
+            }
+
+            tableBody.innerHTML = pageReviews.map(review => `
+            <tr data-id="${review.id}">
+                <td><input type="checkbox" class="review-checkbox" value="${review.id}"></td>
+                <td>#REV-${String(review.id).padStart(3, '0')}</td>
+                <td>${review.productName || 'Unknown Product'}</td>
+                <td>${review.userName || 'Unknown User'}</td>
+                <td>
+                    <div class="rating">
+                        ${renderStars(review.rating)}
+                    </div>
+                </td>
+                <td class="comment" title="${review.reviewText || review.commentText || 'No comment'}">
+                    ${(review.reviewText || review.commentText || 'No comment').substring(0, 50)}${(review.reviewText || review.commentText || '').length > 50 ? '...' : ''}
+                </td>
+                <td>${formatDate(new Date())}</td>
+                <td><span class="status ${review.status ? review.status.toLowerCase() : 'pending'}">${review.status || 'PENDING'}</span></td>
+                <td>
+                    <div class="action-buttons">
+                        <div class="action-btn approve-btn" data-id="${review.id}" title="Approve">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="action-btn reject-btn" data-id="${review.id}" title="Reject">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="action-btn delete-btn" data-id="${review.id}" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+
+            // Add event listeners to checkboxes
+            document.querySelectorAll('.review-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const reviewId = this.value;
+                    if (this.checked) {
+                        selectedReviews.add(reviewId);
+                    } else {
+                        selectedReviews.delete(reviewId);
+                    }
+                    updateSelectAllCheckbox();
+                });
+            });
+        }
+
+        function renderStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+
+        function setupPagination() {
+            const filteredReviews = applyFilters();
+            const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
+            const paginationNumbers = document.getElementById('paginationNumbers');
+
+            if (totalPages <= 1) {
+                paginationNumbers.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                <button class="btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>
+            `;
+            }
+
+            paginationNumbers.innerHTML = paginationHTML;
+
+            // Add event listeners to pagination buttons
+            document.querySelectorAll('#paginationNumbers button').forEach(button => {
+                button.addEventListener('click', function() {
+                    currentPage = parseInt(this.getAttribute('data-page'));
+                    renderTable();
+                    updatePaginationButtons();
+                });
+            });
+
+            updatePaginationButtons();
+        }
+
+        function updatePaginationButtons() {
+            const filteredReviews = applyFilters();
+            const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
+
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage === totalPages;
+        }
+
+        function updateStatistics() {
+            const totalReviews = allReviews.length;
+            const approvedReviews = allReviews.filter(r => r.status === 'APPROVED').length;
+            const pendingReviews = allReviews.filter(r => r.status === 'PENDING').length;
+
+            // Calculate average rating
+            const totalRating = allReviews.reduce((sum, review) => sum + (review.rating || 0), 0);
+            const averageRating = totalReviews > 0 ? (totalRating / totalReviews).toFixed(1) : 0;
+
+            document.getElementById('totalReviews').textContent = totalReviews;
+            document.getElementById('approvedReviews').textContent = approvedReviews;
+            document.getElementById('pendingReviews').textContent = pendingReviews;
+            document.getElementById('averageRating').textContent = averageRating;
+        }
+
+        function showReviewDetails(review) {
+            const modal = document.getElementById('reviewModal');
+            document.getElementById('modalTitle').textContent = `Review #REV-${String(review.id).padStart(3, '0')}`;
+            document.getElementById('modalProductName').textContent = review.productName || 'Unknown Product';
+            document.getElementById('modalRating').innerHTML = renderStars(review.rating);
+            document.getElementById('modalUserImage').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(review.userName || 'User')}&background=random`;
+            document.getElementById('modalUserName').textContent = review.userName || 'Unknown User';
+            document.getElementById('modalUserEmail').textContent = review.userEmail || 'No email available';
+            document.getElementById('modalComment').textContent = review.reviewText || review.commentText || 'No comment provided';
+            document.getElementById('modalDate').textContent = formatDate(new Date());
+            document.getElementById('modalStatus').textContent = review.status || 'PENDING';
+            document.getElementById('modalStatus').className = `status ${review.status ? review.status.toLowerCase() : 'pending'}`;
+
+            // Set up action buttons
+            const approveBtn = document.getElementById('approveBtn');
+            const rejectBtn = document.getElementById('rejectBtn');
+
+            approveBtn.onclick = () => handleApprove(review.id);
+            rejectBtn.onclick = () => handleReject(review.id);
+
+            modal.style.display = 'flex';
+        }
+
+        // =======================
+        // Event Handlers
+        // =======================
+        function setupEventListeners() {
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('show');
+                });
+            }
+
+            // Filter event listeners
+            document.getElementById('statusFilter').addEventListener('change', function() {
+                currentFilters.status = this.value;
+                currentPage = 1;
+                renderTable();
+                setupPagination();
+            });
+
+            document.getElementById('ratingFilter').addEventListener('change', function() {
+                currentFilters.rating = this.value;
+                currentPage = 1;
+                renderTable();
+                setupPagination();
+            });
+
+            document.getElementById('tableSearch').addEventListener('input', function() {
+                currentFilters.search = this.value;
+                currentPage = 1;
+                renderTable();
+                setupPagination();
+            });
+
+            document.getElementById('searchInput').addEventListener('input', function() {
+                currentFilters.search = this.value;
+                currentPage = 1;
+                renderTable();
+                setupPagination();
+            });
+
+            // Pagination buttons
+            document.getElementById('prevPage').addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                    updatePaginationButtons();
+                }
+            });
+
+            document.getElementById('nextPage').addEventListener('click', function() {
+                const filteredReviews = applyFilters();
+                const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTable();
+                    updatePaginationButtons();
+                }
+            });
+
+            // Select all checkbox
+            document.getElementById('selectAll').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('.review-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                    const reviewId = checkbox.value;
+                    if (this.checked) {
+                        selectedReviews.add(reviewId);
+                    } else {
+                        selectedReviews.delete(reviewId);
+                    }
+                });
+            });
+
+            // Bulk actions
+            document.getElementById('applyBulkAction').addEventListener('click', function() {
+                const action = document.getElementById('bulkAction').value;
+                if (!action) {
+                    showNotification('Please select a bulk action', 'warning');
+                    return;
+                }
+
+                if (selectedReviews.size === 0) {
+                    showNotification('Please select at least one review', 'warning');
+                    return;
+                }
+
+                if (confirm(`Are you sure you want to ${action} ${selectedReviews.size} review(s)?`)) {
+                    handleBulkAction(action);
+                }
+            });
+
+            // Action buttons (delegation)
+            document.getElementById('reviewsTableBody').addEventListener('click', function(e) {
+                const target = e.target.closest('.action-btn');
+                if (!target) return;
+
+                const reviewId = target.getAttribute('data-id');
+                const action = target.classList.contains('approve-btn') ? 'approve' :
+                    target.classList.contains('reject-btn') ? 'reject' :
+                        target.classList.contains('delete-btn') ? 'delete' : null;
+
+                if (!action || !reviewId) return;
+
+                const review = allReviews.find(r => r.id == reviewId);
+                if (!review) return;
+
+                if (action === 'delete') {
+                    handleDelete(reviewId);
+                } else if (action === 'approve' || action === 'reject') {
+                    showReviewDetails(review);
+                }
+            });
+
+            // Refresh button
+            document.getElementById('refreshBtn').addEventListener('click', async function() {
+                await loadReviews();
+                showNotification('Reviews refreshed successfully', 'success');
+            });
+
+            // Export button
+            document.getElementById('exportBtn').addEventListener('click', function() {
+                exportReviewsToCSV();
+            });
+
+            // Modal close buttons
+            document.querySelectorAll('.close-btn, #closeBtn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('reviewModal').style.display = 'none';
+                });
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === document.getElementById('reviewModal')) {
+                    document.getElementById('reviewModal').style.display = 'none';
+                }
+            });
+        }
+
+        async function handleApprove(reviewId) {
+            try {
+                await approveReview(reviewId);
+                showNotification('Review approved successfully', 'success');
+                document.getElementById('reviewModal').style.display = 'none';
+                await loadReviews();
+            } catch (error) {
+                showNotification('Failed to approve review', 'error');
+            }
+        }
+
+        async function handleReject(reviewId) {
+            try {
+                await rejectReview(reviewId);
+                showNotification('Review rejected successfully', 'success');
+                document.getElementById('reviewModal').style.display = 'none';
+                await loadReviews();
+            } catch (error) {
+                showNotification('Failed to reject review', 'error');
+            }
+        }
+
+        async function handleDelete(reviewId) {
+            if (confirm('Are you sure you want to delete this review?')) {
+                try {
+                    await deleteReview(reviewId);
+                    showNotification('Review deleted successfully', 'success');
+                    await loadReviews();
+                } catch (error) {
+                    showNotification('Failed to delete review', 'error');
+                }
+            }
+        }
+
+        async function handleBulkAction(action) {
+            try {
+                const promises = [];
+                for (const id of selectedReviews) {
+                    if (action === 'approve') {
+                        promises.push(approveReview(id));
+                    } else if (action === 'reject') {
+                        promises.push(rejectReview(id));
+                    } else if (action === 'delete') {
+                        promises.push(deleteReview(id));
+                    }
+                }
+
+                await Promise.all(promises);
+                showNotification(`Bulk ${action} action completed successfully`, 'success');
+                selectedReviews.clear();
+                document.getElementById('selectAll').checked = false;
+                await loadReviews();
+            } catch (error) {
+                showNotification(`Failed to complete bulk ${action} action`, 'error');
+            }
+        }
+
+        // =======================
+        // Utility Functions
+        // =======================
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show`;
+            notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 300px;
+        `;
+            notification.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+            document.body.appendChild(notification);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
+
+        function showLoading() {
+            // Show loading spinner
+            const loadingElement = document.createElement('div');
+            loadingElement.id = 'loadingSpinner';
+            loadingElement.innerHTML = `
+            <div class="d-flex justify-content-center align-items-center" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        `;
+            document.body.appendChild(loadingElement);
+        }
+
+        function hideLoading() {
+            // Hide loading spinner
+            const loadingElement = document.getElementById('loadingSpinner');
+            if (loadingElement) {
+                loadingElement.remove();
+            }
+        }
+
+        function updateSelectAllCheckbox() {
+            const checkboxes = document.querySelectorAll('.review-checkbox');
+            const selectAll = document.getElementById('selectAll');
+
+            if (checkboxes.length === 0) {
+                selectAll.checked = false;
+                selectAll.indeterminate = false;
+                return;
+            }
+
+            const checkedCount = document.querySelectorAll('.review-checkbox:checked').length;
+
+            if (checkedCount === 0) {
+                selectAll.checked = false;
+                selectAll.indeterminate = false;
+            } else if (checkedCount === checkboxes.length) {
+                selectAll.checked = true;
+                selectAll.indeterminate = false;
+            } else {
+                selectAll.checked = false;
+                selectAll.indeterminate = true;
+            }
+        }
+
+        function exportReviewsToCSV() {
+            const filteredReviews = applyFilters();
+            if (filteredReviews.length === 0) {
+                showNotification('No reviews to export', 'warning');
+                return;
+            }
+
+            // Create CSV content
+            let csvContent = 'Review ID,Product,User,Rating,Comment,Date,Status\n';
+
+            filteredReviews.forEach(review => {
+                const row = [
+                    `REV-${String(review.id).padStart(3, '0')}`,
+                    review.productName || '',
+                    review.userName || '',
+                    review.rating || '',
+                    `"${(review.reviewText || review.commentText || '').replace(/"/g, '""')}"`,
+                    formatDate(new Date()),
+                    review.status || ''
+                ];
+                csvContent += row.join(',') + '\n';
+            });
+
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `reviews_export_${new Date().toISOString().slice(0, 10)}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showNotification('Reviews exported successfully', 'success');
+        }
+    });
+</script>
+
+</body>
+</html>

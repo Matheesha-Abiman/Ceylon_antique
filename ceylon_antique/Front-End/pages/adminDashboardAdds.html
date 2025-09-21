@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Management - Admin Panel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --danger-color: #e63946;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fb;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            padding: 0;
+            z-index: 1000;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            margin: 10px 0 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: white;
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .search-bar input {
+            padding-left: 35px;
+            border-radius: 20px;
+            border: 1px solid #ced4da;
+            height: 40px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .notification {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification span {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Page Header Styles */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Dashboard Widgets */
+        .dashboard-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .widget {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+
+        .widget-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+
+        .widget-1 .widget-icon { background-color: rgba(67, 97, 238, 0.1); color: var(--primary-color); }
+        .widget-2 .widget-icon { background-color: rgba(76, 201, 240, 0.1); color: var(--success-color); }
+        .widget-3 .widget-icon { background-color: rgba(247, 37, 133, 0.1); color: var(--warning-color); }
+        .widget-4 .widget-icon { background-color: rgba(230, 57, 70, 0.1); color: var(--danger-color); }
+
+        .widget-info h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .widget-info p {
+            margin: 5px 0 0;
+            color: #6c757d;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filters select, .filters input {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Status Badges */
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status.active { background-color: #d4edda; color: #155724; }
+        .status.paused { background-color: #fff3cd; color: #856404; }
+        .status.completed { background-color: #d1ecf1; color: #0c5460; }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-btn { background-color: rgba(76, 201, 240, 0.1); color: var(--success-color); }
+        .view-btn:hover { background-color: var(--success-color); color: white; }
+
+        .edit-btn { background-color: rgba(67, 97, 238, 0.1); color: var(--primary-color); }
+        .edit-btn:hover { background-color: var(--primary-color); color: white; }
+
+        .delete-btn { background-color: rgba(230, 57, 70, 0.1); color: var(--danger-color); }
+        .delete-btn:hover { background-color: var(--danger-color); color: white; }
+
+        /* Table Actions */
+        .table-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .table-actions select {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+
+        .pagination .btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .pagination .btn.active, .pagination .btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Form Styles */
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        /* Toast Styles */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1200;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+        .toast.info { background-color: #17a2b8; }
+
+        .toast .icon {
+            font-size: 1.2rem;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100px); opacity: 0; }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error Message */
+        .error-message {
+            color: var(--danger-color);
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(230, 57, 70, 0.1);
+            border-radius: 4px;
+            margin: 20px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block !important;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 900;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .header {
+                padding-left: 70px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-widgets {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filters {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .search-bar {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .user-profile {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .table-actions {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile Menu Toggle -->
+<button class="menu-toggle d-lg-none" id="menuToggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<div class="container-fluid p-0">
+    <div class="row g-0">
+        <!-- Sidebar -->
+        <div class="sidebar col-lg-2 d-none d-lg-block" id="sidebar">
+            <div class="sidebar-header"><i class="fas fa-chart-line fa-2x"></i><h2>Admin Panel</h2></div>
+            <div class="sidebar-menu">
+                <a class="menu-item" href="adminDashboard.html"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                <a class="menu-item" href="user.html"><i class="fas fa-users"></i><span>Users</span></a>
+                <a class="menu-item" href="adminProducts.html"><i class="fas fa-box"></i><span>Products</span></a>
+                <a class="menu-item" href="adminOrder.html"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
+                <a class="menu-item active" href="adminDashboardAdds.html"><i class="fas fa-ad"></i><span>Advertisements</span></a>
+                <a class="menu-item" href="adminBlogs.html"><i class="fas fa-blog"></i><span>Blog</span></a>
+                <a class="menu-item" href="adminReviews.html"><i class="fas fa-star"></i><span>Reviews</span></a>
+                <a class="menu-item" href="adminPayment.html"><i class="fas fa-credit-card"></i><span>Payments</span></a>
+                <a class="menu-item" href="adminSettings.html"><i class="fas fa-cog"></i><span>Settings</span></a>
+                <a class="menu-item" href="adminHelp.html"><i class="fas fa-question-circle"></i><span>Help</span></a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content col-lg-10">
+            <!-- Header -->
+            <div class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-control" placeholder="Search ads..." id="searchInput">
+                </div>
+                <div class="user-profile">
+                    <div class = "notification">
+                    <i class="fas fa-bell"></i>
+                    <span>3</span>
+                </div>
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin User">
+                <span>Admin User</span>
+            </div>
+        </div>
+
+        <!-- Page Title and Action Buttons -->
+        <div class="page-header">
+            <h1>Advertisement Management</h1>
+            <button class="btn btn-primary" id="createAdBtn">
+                <i class="fas fa-plus"></i> Create New Ad
+            </button>
+        </div>
+
+        <!-- Ad Statistics -->
+        <div class="dashboard-widgets" id="statsContainer">
+            <div class="spinner" id="statsSpinner"></div>
+        </div>
+
+        <!-- Ad Campaigns Table -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>Ad Campaigns</h2>
+                <div class="filters">
+                    <select id="statusFilter" class="form-select">
+                        <option value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="paused">Paused</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <select id="typeFilter" class="form-select">
+                        <option value="">All Types</option>
+                        <option value="banner">Banner</option>
+                        <option value="popup">Popup</option>
+                        <option value="sidebar">Sidebar</option>
+                    </select>
+                    <button class="btn btn-secondary" id="resetFilters">Reset</button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="table data-table">
+                    <thead>
+                    <tr>
+                        <th>Campaign ID</th>
+                        <th>Campaign Name</th>
+                        <th>Type</th>
+                        <th>Impressions</th>
+                        <th>Clicks</th>
+                        <th>CTR</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="adsTableBody">
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            <div class="spinner" id="tableSpinner"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-actions">
+                <select id="bulkAction" class="form-select">
+                    <option value="">Bulk Actions</option>
+                        <option value="activate">Activate</option>
+                        <option value="pause">Pause</option>
+                        <option value="delete">Delete</option>
+                </select>
+                <button class="btn btn-primary" id="applyBulkAction">Apply</button>
+            </div>
+
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Create/Edit Ad Modal -->
+<div class="modal" id="adModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">Create New Ad Campaign</h2>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="adForm">
+                <input type="hidden" id="adId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="campaignName">Campaign Name *</label>
+                        <input type="text" id="campaignName" class="form-control" placeholder="Enter campaign name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adType">Ad Type *</label>
+                        <select id="adType" class="form-control" required>
+                            <option value="">Select Ad Type</option>
+                            <option value="banner">Banner</option>
+                            <option value="pop">Popup</option>
+                            <option value="sidebar">Sidebar</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" id="startDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate" class="form-control">
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label for="targetUrl">Target URL *</label>
+            <input type="url" id="targetUrl" class="form-control" placeholder="https://example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="adImage">Ad Image URL *</label>
+            <input type="text" id="adImage" class="form-control" placeholder="https://example.com/image.jpg" required>
+        </div>
+
+        <div class="form-group">
+            <label for="adStatus">Status *</label>
+            <select id="adStatus" class="form-control" required>
+                <option value="active">Active</option>
+                <option value="paused">Paused</option>
+                <option value="scheduled">Scheduled</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="adBudget">Daily Budget ($)</label>
+            <input type="number" id="adBudget" class="form-control" placeholder="Enter daily budget" min="0" step="0.01">
+        </div>
+
+        <div class="form-group">
+            <label for="userId">User ID *</label>
+            <input type="number" id="userId" class="form-control" placeholder="Enter user ID" required>
+        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" id="saveAdBtn">Save Campaign</button>
+        <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+    </div>
+</div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const API_BASE_URL = 'http://localhost:8080/api/v1/advertise';
+        let currentPage = 1;
+        const adsPerPage = 10;
+        let allAds = [];
+        let filteredAds = [];
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+        }
+
+        // Modal functionality
+        const createAdBtn = document.getElementById('createAdBtn');
+        const adModal = document.getElementById('adModal');
+        const closeBtn = document.querySelector('.close-btn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const saveAdBtn = document.getElementById('saveAdBtn');
+        const adForm = document.getElementById('adForm');
+
+        if (createAdBtn) {
+            createAdBtn.addEventListener('click', function() {
+                resetForm();
+                document.getElementById('modalTitle').textContent = 'Create New Ad Campaign';
+                adModal.style.display = 'block';
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                adModal.style.display = 'none';
+            });
+        }
+
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', function() {
+                adModal.style.display = 'none';
+            });
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === adModal) {
+                adModal.style.display = 'none';
+            }
+        });
+
+        // Form submission
+        if (saveAdBtn) {
+            saveAdBtn.addEventListener('click', function() {
+                if (validateForm()) {
+                    const adData = getFormData();
+
+                    if (adData.id) {
+                        updateAd(adData);
+                    } else {
+                        createAd(adData);
+                    }
+                }
+            });
+        }
+
+        // Filter functionality
+        const statusFilter = document.getElementById('statusFilter');
+        const typeFilter = document.getElementById('typeFilter');
+        const resetFilters = document.getElementById('resetFilters');
+        const searchInput = document.getElementById('searchInput');
+
+        if (statusFilter) {
+            statusFilter.addEventListener('change', applyFilters);
+        }
+
+        if (typeFilter) {
+            typeFilter.addEventListener('change', applyFilters);
+        }
+
+        if (resetFilters) {
+            resetFilters.addEventListener('click', function() {
+                statusFilter.value = '';
+                typeFilter.value = '';
+                searchInput.value = '';
+                applyFilters();
+            });
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', applyFilters);
+        }
+
+        // Bulk actions
+        const applyBulkAction = document.getElementById('applyBulkAction');
+
+        if (applyBulkAction) {
+            applyBulkAction.addEventListener('click', function() {
+                const bulkAction = document.getElementById('bulk极ction').value;
+                if (bulkAction) {
+                    const selectedAds = getSelectedAds();
+                    if (selectedAds.length > 0) {
+                        performBulkAction(bulkAction, selectedAds);
+                    } else {
+                        alert('Please select at least one ad to perform bulk action.');
+                    }
+                }
+            });
+        }
+
+        // Initialize the page
+        loadAdvertisements();
+        loadStatistics();
+
+        // Function to load advertisements
+        function loadAdvertisements() {
+            // Show loading spinner
+            const tableSpinner = document.getElementById('tableSpinner');
+            if (tableSpinner) tableSpinner.style.display = 'block';
+
+            fetch(API_BASE_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    allAds = data;
+                    filteredAds = [...allAds];
+                    renderAdsTable();
+                    renderPagination();
+                    // Hide loading spinner
+                    if (tableSpinner) tableSpinner.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error fetching advertisements:', error);
+                    const tableBody = document.getElementById('adsTableBody');
+                    if (tableBody) {
+                        tableBody.innerHTML = `
+                            <tr>
+                                <td colspan="8" class="error-message">
+                                    Failed to load advertisements. Please try again later.
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    // Hide loading spinner
+                    if (tableSpinner) tableSpinner.style.display = 'none';
+                });
+        }
+
+        // Function to load statistics
+        function loadStatistics() {
+            // Show loading spinner
+            const statsSpinner = document.getElementById('statsSpinner');
+            if (statsSpinner) statsSpinner.style.display = 'block';
+
+            fetch(API_BASE_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(ads => {
+                    renderStatistics(ads);
+                    // Hide loading spinner
+                    if (statsSpinner) statsSpinner.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error fetching statistics:', error);
+                    const statsContainer = document.getElementById('statsContainer');
+                    if (statsContainer) {
+                        statsContainer.innerHTML = `
+                            <div class极error-message">
+                                Failed to load statistics. Please try again later.
+                            </div>
+                        `;
+                    }
+                    // Hide loading spinner
+                    if (statsSpinner) statsSpinner.style.display = 'none';
+                });
+        }
+
+        // Function to render statistics
+        function renderStatistics(ads) {
+            const totalAds = ads.length;
+            const totalImpressions = ads.reduce((sum, ad) => sum + (ad.impressions || 0), 0);
+            const totalClicks = ads.reduce((sum, ad) => sum + (ad.clicks || 0), 0);
+            const totalRevenue = ads.reduce((sum, ad) => sum + (ad.budget || 0), 0);
+
+            const ctr = totalImpressions > 0 ? (totalClicks / totalImpressions * 100).toFixed(2) : 0;
+
+            const statsContainer = document.getElementById('statsContainer');
+            if (statsContainer) {
+                statsContainer.innerHTML = `
+                    <div class="widget widget-1">
+                        <div class="widget-icon">
+                            <i class="fas fa-ad"></i>
+                        </div>
+                        <div class="widget-info">
+                            <h3>${totalAds}</h3>
+                            <p>Total Ads</p>
+                        </div>
+                    </div>
+                    <div class="widget widget-2">
+                        <div class="widget-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="widget-info">
+                            <h3>${totalImpressions.toLocaleString()}</h3>
+                            <p>Total Impressions</p>
+                        </div>
+                    </div>
+                    <div class="widget widget-3">
+                        <div class="widget-icon">
+                            <i class="fas fa-mouse-pointer"></i>
+                        </div>
+                        <div class="widget-info">
+                            <h3>${ctr}%</h3>
+                            <p>Click-through Rate</p>
+                        </div>
+                    </div>
+                    <div class="widget widget-4">
+                        <div class="widget-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="widget-info">
+                            <h3>$${totalRevenue.toLocaleString()}</h3>
+                            <p>Ad Revenue</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Function to render ads table
+        function renderAdsTable() {
+            const tableBody = document.getElementById('adsTableBody');
+            if (!tableBody) return;
+
+            const startIndex = (currentPage - 1) * adsPerPage;
+            const endIndex = startIndex + adsPerPage;
+            const adsToShow = filteredAds.slice(startIndex, endIndex);
+
+            if (adsToShow.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-4">No advertisements found.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = adsToShow.map(ad => `
+                <tr>
+                    <td>#AD-${String(ad.id).padStart(3, '0')}</td>
+                    <td>${ad.title}</td>
+                    <td>${ad.type || 'N/A'}</td>
+                    <td>${ad.impressions || 0}</td>
+                    <td>${ad.clicks || 0}</td>
+                    <td>${calculateCTR(ad)}%</td>
+                    <td><span class="status ${ad.status}">${ad.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <div class="action-btn edit-btn" data-id="${ad.id}">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="action-btn delete-btn极data-id="${ad.id}">
+                                <i class="fas fa-trash"></i>
+                            </极>
+                            <div class="action-btn view-btn" data-id="${ad.id}">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Add event listeners to action buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const adId = this.getAttribute('data-id');
+                    editAd(adId);
+                });
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const adId = this.getAttribute('data-id');
+                    deleteAd(adId);
+                });
+            });
+
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const adId = this.getAttribute('data-id');
+                    viewAd(adId);
+                });
+            });
+        }
+
+        // Function to render pagination
+        function renderPagination() {
+            const paginationContainer = document.getElementById('pagination');
+            if (!paginationContainer) return;
+
+            const totalPages = Math.ceil(filteredAds.length / adsPerPage);
+
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = `
+                <button class="btn ${currentPage === 1 ? 'disabled' : ''}" ${currentPage === 1 ? 'disabled' : ''} id="prevPage">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <button class="btn ${currentPage === i ? 'active' : ''}" data-page="${i}">
+                        ${i}
+                    </button>
+                `;
+            }
+
+            paginationHTML += `
+                <button class="btn ${currentPage === totalPages ? 'disabled' : ''}" ${currentPage === totalPages ? 'disabled' : ''} id极nextPage">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+
+            paginationContainer.innerHTML = paginationHTML;
+
+            // Add event listeners to pagination buttons
+            document.querySelectorAll('#pagination button[data-page]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    currentPage = parseInt(this.getAttribute('data-page'));
+                    renderAdsTable();
+                    renderPagination();
+                });
+            });
+
+            const prevPage = document.getElementById('prevPage');
+            if (prevPage) {
+                prevPage.addEventListener('click', function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        renderAdsTable();
+                        renderPagination();
+                    }
+                });
+            }
+
+            const nextPage = document.getElementById('nextPage');
+            if (nextPage) {
+                nextPage.addEventListener('click', function() {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        renderAdsTable();
+                        renderPagination();
+                    }
+                });
+            }
+        }
+
+        // Function to apply filters
+        function applyFilters() {
+            const status = statusFilter.value;
+            const type = typeFilter.value;
+            const searchTerm = searchInput.value.toLowerCase();
+
+            filteredAds = allAds.filter(ad => {
+                const matchesStatus = !status || ad.status === status;
+                const matchesType = !type || ad.type === type;
+                const matchesSearch = !searchTerm ||
+                    ad.title.toLowerCase().includes(searchTerm) ||
+                    (ad.id && ad.id.toString().includes(searchTerm));
+
+                return matchesStatus && matchesType && matchesSearch;
+            });
+
+            currentPage = 1;
+            renderAdsTable();
+            renderPagination();
+        }
+
+        // Function to create a new ad
+        function createAd(adData) {
+            // Show loading state
+            if (saveAdBtn) {
+                saveAdBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+                saveAdBtn.disabled = true;
+            }
+
+            fetch(API_BASE_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(adData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(newAd => {
+                    alert('Advertisement created successfully!');
+                    adModal.style.display = 'none';
+                    loadAdvertisements();
+                    loadStatistics();
+                })
+                .catch(error => {
+                    console.error('Error creating advertisement:', error);
+                    alert('Failed to create advertisement. Please try again.');
+                })
+                .finally(() => {
+                    // Reset button state
+                    if (saveAdBtn) {
+                        saveAdBtn.innerHTML = 'Save Campaign';
+                        saveAdBtn.disabled = false;
+                    }
+                });
+        }
+
+        // Function to update an ad
+        function updateAd(adData) {
+            // Show loading state
+            if (saveAdBtn) {
+                saveAdBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden极true"></span> Updating...';
+                saveAdBtn.disabled = true;
+            }
+
+            fetch(`${API_BASE_URL}/${adData.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(adData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(updatedAd => {
+                    alert('Advertisement updated successfully!');
+                    adModal.style.display = 'none';
+                    loadAdvertisements();
+                    loadStatistics();
+                })
+                .catch(error => {
+                    console.error('Error updating advertisement:', error);
+                    alert('Failed to update advertisement. Please try again.');
+                })
+                .finally(() => {
+                    // Reset button state
+                    if (saveAdBtn) {
+                        saveAdBtn.innerHTML = 'Save Campaign';
+                        saveAdBtn.disabled = false;
+                    }
+                });
+        }
+
+        // Function to delete an ad
+        function deleteAd(adId) {
+            if (confirm('Are you sure you want to delete this advertisement?')) {
+                fetch(`${API_BASE_URL}/${adId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(result => {
+                        alert('Advertisement deleted successfully!');
+                        loadAdvertisements();
+                        loadStatistics();
+                    })
+                    .catch(error => {
+                        console.error('Error deleting advertisement:', error);
+                        alert('Failed to delete advertisement. Please try again.');
+                    });
+            }
+        }
+
+        // Function to edit an ad
+        function editAd(adId) {
+            const ad = allAds.find(a => a.id == adId);
+            if (ad) {
+                document.getElementById('modalTitle').textContent = 'Edit Ad Campaign';
+                document.getElementById('adId').value = ad.id;
+                document.getElementById('campaignName').value = ad.title;
+                document.getElementById('adType').value = ad.type || '';
+                document.getElementById('targetUrl').value = ad.link;
+                document.getElementById('adImage').value = ad.imageUrl;
+                document.getElementById('adStatus').value = ad.status || 'active';
+                document.getElementById('adBudget').value = ad.budget || '';
+                document.getElementById('userId').value = ad.userId || '';
+
+                // Parse and set dates if available
+                if (ad.postedDate) {
+                    const postedDate = new Date(ad.postedDate);
+                    document.getElementById('startDate').value = postedDate.toISOString().split('T')[0];
+
+                    // Set end date as 30 days from posted date by default
+                    const endDate = new Date(postedDate);
+                    endDate.setDate(endDate.getDate() + 30);
+                    document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+                }
+
+                adModal.style.display = 'block';
+            }
+        }
+
+        // Function to view ad analytics
+        function viewAd(adId) {
+            const ad = allAds.find(a => a.id == adId);
+            if (ad) {
+                alert(`Analytics for: ${ad.title}\nImpressions: ${ad.impressions || 0}\nClicks: ${ad.clicks || 0}\nCTR: ${calculateCTR(ad)}%`);
+            }
+        }
+
+        // Function to perform bulk actions
+        function performBulkAction(action, adIds) {
+            if (action === 'delete') {
+                if (confirm(`Are you sure you want to delete ${adIds.length} advertisements?`)) {
+                    const deletePromises = adIds.map(id =>
+                        fetch(`${API_BASE_URL}/${id}`, { method: 'DELETE' })
+                    );
+
+                    Promise.all(deletePromises)
+                        .then(() => {
+                            alert(`${adIds.length} advertisements deleted successfully!`);
+                            loadAdvertisements();
+                            loadStatistics();
+                        })
+                        .catch(error => {
+                            console.error('Error deleting advertisements:', error);
+                            alert('Failed to delete some advertisements. Please try again.');
+                        });
+                }
+            } else {
+                const newStatus = action === 'activate' ; 'active' ; 'paused';
+                const updatePromises = adIds.map(id => {
+                    const ad = allAds.find(a => a.id == id);
+                    if (ad) {
+                        ad.status = newStatus;
+                        return fetch(`${API_BASE_URL}/${id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(ad)
+                        });
+                    }
+                    return Promise.resolve();
+                });
+
+                Promise.all(updatePromises)
+                    .then(() => {
+                        alert(`${adIds.length} advertisements updated successfully!`);
+                        loadAdvertisements();
+                    })
+                    .catch(error => {
+                        console.error('Error updating advertisements:', error);
+                        alert('Failed to update some advertisements. Please try again.');
+                    });
+            }
+        }
+
+        // Helper function to get selected ads
+        function getSelectedAds() {
+            // This would normally get ads selected with checkboxes
+            // For simplicity, we'll return all filtered ads for demonstration
+            return filteredAds.map(ad => ad.id);
+        }
+
+        // Helper function to get form data
+        function getFormData() {
+            return {
+                id: document.getElementById('adId').value ? parseInt(document.getElementById('adId').value) : null,
+                title: document.getElementById('campaignName').value,
+                type: document.getElementById('adType').value,
+                link: document.getElementById('targetUrl').value,
+                imageUrl: document.getElementById('adImage').value,
+                status: document.getElementById('adStatus').value,
+                budget: document.getElementById('adBudget').value ? parseFloat(document.getElementById('adBudget').value) : null,
+                userId: document.getElementById('userId').value ? parseInt(document.getElementById('userId').value) : null
+            };
+        }
+
+        // Helper function to validate form
+        function validateForm() {
+            const requiredFields = [
+                'campaignName', 'adType', 'targetUrl', 'adImage', 'adStatus', 'userId'
+            ];
+
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    alert(`Please fill in the ${field.labels[0].textContent} field.`);
+                    field.focus();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Helper function to reset form
+        function resetForm() {
+            adForm.reset();
+            document.getElementById('adId').value = '';
+        }
+
+        // Helper function to calculate CTR
+        function calculateCTR(ad) {
+            if (!ad.impressions || ad.impressions === 0) return '0.00';
+            return ((ad.clicks || 0) / ad.impressions * 100).toFixed(2);
+        }
+    });
+</script>
+</body>
+</html>

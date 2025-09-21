@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceylon Antique Marketplace - Leave Comments</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7B68EE;
+            --primary-light: #9370DB;
+            --primary-dark: #6A5ACD;
+            --secondary: #FF6B8B;
+            --accent: #00CED1;
+            --ai: #20B2AA;
+            --neutral-light: #0F172A;
+            --neutral: #1E293B;
+            --neutral-dark: #334155;
+            --text: #F1F5F9;
+            --text-light: #CBD5E1;
+            --white: #FFFFFF;
+            --black: #0A0A0A;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-hover: rgba(255, 255, 255, 0.1);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.3);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            background: linear-gradient(135deg, var(--neutral-light) 0%, var(--black) 100%);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .futuristic {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: -2px;
+            right: -2px;
+            box-shadow: 0 0 10px var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--white) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .logo .badge {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--white);
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            margin-left: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav a:hover {
+            color: var(--primary-light);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius);
+            padding: 1rem;
+            z-index: 10;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .nav-dropdown-content a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.7rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .nav-dropdown-content a:hover {
+            background-color: var(--glass-hover);
+            color: var(--primary-light);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            display: flex;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .search-bar:focus-within {
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            outline: none;
+            width: 180px;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-light);
+        }
+
+        .ai-search-btn {
+            background: linear-gradient(135deg, var(--ai) 0%, var(--accent) 100%);
+            border: none;
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: var(--transition);
+        }
+
+        .ai-search-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px var(--ai);
+        }
+
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 1.3rem;
+            cursor: pointer;
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background-color: var(--glass-hover);
+            color: var(--primary-light);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary);
+            color: var(--white);
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        .profile-menu {
+            position: relative;
+        }
+
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius);
+            padding: 1rem;
+            z-index: 10;
+            margin-top: 0px;
+        }
+
+        .profile-menu:hover .profile-dropdown {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .profile-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .profile-dropdown a:hover {
+            background-color: var(--glass-hover);
+            color: var(--primary-light);
+        }
+
+        /* Hero Section */
+        .comments-hero {
+            position: relative;
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .comments-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1589656966895-2f33e7653819?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            filter: brightness(0.3) contrast(1.2);
+            z-index: -2;
+        }
+
+        .comments-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.2) 0%, rgba(0, 206, 209, 0.2) 100%);
+            z-index: -1;
+        }
+
+        .comments-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .comments-hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .comments-hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Comments Content */
+        .comments-content {
+            padding: 4rem 0;
+        }
+
+        .comments-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        @media (max-width: 992px) {
+            .comments-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Comment Form */
+        .comment-form-container {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            color: var(--text);
+            outline: none;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 2px rgba(123, 104, 238, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .rating-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .rating-stars input {
+            display: none;
+        }
+
+        .rating-stars label {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .rating-stars input:checked ~ label {
+            color: var(--text-light);
+        }
+
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label,
+        .rating-stars input:checked ~ label {
+            color: #FFD700;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: var(--shadow-sm);
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Recent Comments */
+        .recent-comments {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            border: 1px solid var(--glass-border);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .comments-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .comments-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .comment-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--primary-light);
+        }
+
+        .comment-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .comment-rating {
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .comment-text {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin-top: 4rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .faq-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+            text-align: center;
+        }
+
+        .faq-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: var(--glass-hover);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--neutral);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+            position: relative;
+            overflow: hidden;
+            margin-top: 4rem;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+            opacity: 0.05;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-col p {
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+            position: relative;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(123, 104, 238, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(123, 104, 238, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(123, 104, 238, 0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .comments-hero h2 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .comments-hero h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .user-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .search-bar {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .search-bar input {
+                width: 100%;
+            }
+
+            .comments-hero h2 {
+                font-size: 2rem;
+            }
+
+            .comments-hero {
+                height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div class="container header-container">
+        <div class="logo">
+            <i class='bx bx-time-five logo-icon'></i>
+            <h1>Ceylon Antiques</h1>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="buyerHome.html"><i class='bx bx-home'></i> Home</a></li>
+                <li><a href="buyerDashboard.html"><i class='bx bx-dashboard'></i> Dashboard</a></li>
+                <li class="nav-dropdown">
+                    <a href="#"><i class='bx bx-file'></i> Pages <i class='bx bx-chevron-down'></i></a>
+                    <div class="nav-dropdown-content">
+                        <a href="blogs.html"><i class='bx bx-news'></i> Blog</a>
+                        <a href="comments.html"><i class='bx bx-comment'></i> Leave Comments</a>
+                    </div>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="#"><i class='bx bx-category'></i> Others <i class='bx bx-chevron-down'></i></a>
+                    <div class="nav-dropdown-content">
+                        <a href="chat.html"><i class='bx bx-chat'></i> Chatting</a>
+                    </div>
+                </li>
+                <li><a href="aboutUs.html"><i class='bx bx-info-circle'></i> About Us</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-actions">
+            <div class="search-bar">
+                <input type="text" placeholder="Search antiques...">
+                <i class='bx bx-search'></i>
+            </div>
+
+            <button class="icon-btn">
+                <i class='bx bx-heart'></i>
+            </button>
+
+            <a href="shoppingCart.html">
+                <button class="icon-btn">
+                    <i class='bx bx-cart'></i>
+                    <span class="cart-count">3</span>
+                </button>
+            </a>
+
+            <div class="profile-menu">
+                <button class="icon-btn">
+                    <i class='bx bx-user'></i>
+                </button>
+                <div class="profile-dropdown">
+                    <a href="buyerProfile.html" id="profileBtn"><i class='bx bx-user'></i> Profile</a>
+                    <a href="index.html" id="logoutBtn"><i class='bx bx-log-out'></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Comments Hero Section -->
+<section class="comments-hero">
+    <div class="container">
+        <div class="comments-hero-content">
+            <h2>Share Your Experience</h2>
+            <p>Your feedback helps us improve and preserve the legacy of Ceylon's antique heritage for future generations.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Comments Content -->
+<section class="comments-content">
+    <div class="container comments-container">
+        <!-- Comment Form -->
+        <div class="comment-form-container">
+            <h3 class="form-title">Leave a Comment</h3>
+            <form class="comment-form" id="commentForm">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="product">Product (Optional)</label>
+                    <select id="product" name="product">
+                        <option value="">Select a product</option>
+                        <option value="teak-cabinet">Vintage Ceylon Teak Cabinet</option>
+                        <option value="kandyan-jewelry">Traditional Kandyan Jewelry Set</option>
+                        <option value="colonial-painting">Colonial Era Oil Painting</option>
+                        <option value="brass-lamp">Antique Brass Oil Lamp</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Rating</label>
+                    <div class="rating-group">
+                        <span>Poor</span>
+                        <div class="rating-stars">
+                            <input type="radio" id="star5" name="rating" value="5">
+                            <label for="star5">★</label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4">★</label>
+                            <input type="radio" id="star3" name="rating" value="3" checked>
+                            <label for="star3">★</label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2">★</label>
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1">★</label>
+                        </div>
+                        <span>Excellent</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comment">Your Comment</label>
+                    <textarea id="comment" name="comment" placeholder="Share your experience with us..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class='bx bx-paper-plane'></i> Submit Comment
+                </button>
+            </form>
+        </div>
+
+        <!-- Recent Comments -->
+        <div class="recent-comments">
+            <h3 class="comments-title">Recent Comments</h3>
+            <div class="comment-list">
+                <!-- Comment 1 -->
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">James Wilson</span>
+                        <span class="comment-date">June 15, 2023</span>
+                    </div>
+                    <div class="comment-rating">★★★★★</div>
+                    <p class="comment-text">The antique desk I purchased exceeded my expectations. The craftsmanship is exceptional, and it's now the centerpiece of my study. The customer service was also outstanding!</p>
+                </div>
+
+                <!-- Comment 2 -->
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">Priya Fernando</span>
+                        <span class="comment-date">June 12, 2023</span>
+                    </div>
+                    <div class="comment-rating">★★★★☆</div>
+                    <p class="comment-text">As a collector of traditional jewelry, I was thrilled with the authenticity and quality of the Kandyan set I bought. The gemstones are genuine and the silverwork is exquisite.</p>
+                </div>
+
+                <!-- Comment 3 -->
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">David Chen</span>
+                        <span class="comment-date">June 8, 2023</span>
+                    </div>
+                    <div class="comment-rating">★★★★★</div>
+                    <p class="comment-text">The shipping was prompt and the item was carefully packaged. The vintage map I purchased is even more beautiful in person. Will definitely shop here again.</p>
+                </div>
+
+                <!-- Comment 4 -->
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">Sarah Johnson</span>
+                        <span class="comment-date">June 5, 2023</span>
+                    </div>
+                    <div class="comment-rating">★★★★☆</div>
+                    <p class="comment-text">I'm very pleased with my purchase of the colonial-era chair. The restoration work is impeccable, and it looks perfect in my living room. The only reason for 4 stars is the longer than expected delivery time.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="container">
+        <div class="faq-section">
+            <h3 class="faq-title">Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <!-- FAQ 1 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How long does it take for my comment to appear?
+                        <i class='bx bx-chevron-down'></i>
+                    </div>
+                    <div class="faq-answer">
+                        All comments are reviewed by our team before being published to ensure they meet our community guidelines. This process typically takes 24-48 hours.
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Can I edit my comment after submitting?
+                        <i class='bx bx-chevron-down'></i>
+                    </div>
+                    <div class="faq-answer">
+                        Unfortunately, once a comment is submitted, it cannot be edited. If you need to make changes, please contact our support team with your request.
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What should I include in my comment?
+                        <i class='bx bx-chevron-down'></i>
+                    </div>
+                    <div class="faq-answer">
+                        We appreciate detailed comments about your experience with our products, service, and overall shopping experience. Specific details about product quality, authenticity, and delivery are especially helpful for other customers.
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Why was my comment not approved?
+                        <i class='bx bx-chevron-down'></i>
+                    </div>
+                    <div class="faq-answer">
+                        Comments may not be approved if they contain inappropriate language, personal attacks, promotional content, or information that is not relevant to the product or service. Our team follows strict moderation guidelines.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Ceylon Antiques</h3>
+                <p>Preserving and sharing the rich heritage of Sri Lanka through authentic antiques and collectibles.</p>
+                <div class="social-links">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-pinterest'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Collections</a></li>
+                    <li><a href="#">Authentication Process</a></li>
+                    <li><a href="#">Shipping Information</a></li>
+                    <li><a href="#">Care Guide</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <p><i class='bx bx-map'></i> 123 Galle Road, Colombo, Sri Lanka</p>
+                <p><i class='bx bx-phone'></i> +94 11 234 5678</p>
+                <p><i class='bx bx-envelope'></i> info@ceylonantiques.lk</p>
+                <p><i class='bx bx-time'></i> Mon-Sat: 9AM - 6PM</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2023 Ceylon Antiques. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        /* ------------------- SEARCH FUNCTIONALITY ------------------- */
+        const searchInput = document.querySelector('.search-bar input');
+        const searchIcon = document.querySelector('.search-bar .bx-search');
+
+        function performSearch() {
+            if (searchInput.value.trim() !== '') {
+                alert(`Searching for: ${searchInput.value}`);
+                searchInput.value = '';
+            }
+        }
+
+        if (searchIcon && searchInput) {
+            searchIcon.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch();
+            });
+        }
+
+        /* ------------------- PROFILE + LOGOUT ------------------- */
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn) {
+            profileBtn.addEventListener('click', function() {
+                window.location.href = 'buyerProfile.html';
+            });
+        }
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
+              sessionStorage.removeItem('user');
+
+                window.location.href = 'index.html';
+            });
+        }
+
+        /* ------------------- PRODUCT MODAL ------------------- */
+        const modal = document.getElementById('productModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalPrice = document.getElementById('modalPrice');
+        const closeBtn = document.querySelector('.close-btn');
+
+        document.querySelectorAll('.view-details').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.product-card');
+                modalImg.src = card.dataset.img;
+                modalTitle.textContent = card.dataset.title;
+                modalDesc.textContent = card.dataset.desc;
+                modalPrice.textContent = card.dataset.price;
+                modal.style.display = 'flex';
+            });
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => modal.style.display = 'none');
+        }
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        });
+
+        /* ------------------- CART FUNCTIONALITY ------------------- */
+        const cartBtn = document.getElementById('cartBtn');
+        const cartModal = document.getElementById('cartModal');
+        const closeCart = document.getElementById('closeCart');
+        const cartItems = document.getElementById('cartItems');
+        const cartSubtotal = document.getElementById('cartSubtotal');
+        const cartTotal = document.getElementById('cartTotal');
+        const cartCount = document.querySelector('.cart-count');
+
+        let cart = [];
+        let cartItemCount = 0;
+
+        if (cartBtn) cartBtn.addEventListener('click', () => cartModal.classList.add('open'));
+        if (closeCart) closeCart.addEventListener('click', () => cartModal.classList.remove('open'));
+        window.addEventListener('click', (e) => {
+            if (e.target === cartModal) cartModal.classList.remove('open');
+        });
+
+        function updateCartDisplay() {
+            cartItems.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <div class="cart-item-img" style="${item.image}"></div>
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-title">${item.title}</h3>
+                        <p class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity}</p>
+                        <div class="cart-item-actions">
+                            <span class="remove-item" onclick="removeFromCart('${item.title}')">Remove</span>
+                        </div>
+                    </div>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+
+            cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+            cartTotal.textContent = cart.length > 0 ? `$${(subtotal + 25).toFixed(2)}` : '$0.00';
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+            }
+        }
+
+        window.removeFromCart = function(title) {
+            const idx = cart.findIndex(item => item.title === title);
+            if (idx > -1) {
+                cartItemCount -= cart[idx].quantity;
+                cartCount.textContent = cartItemCount;
+                cart.splice(idx, 1);
+                updateCartDisplay();
+                showNotification('Item removed from cart');
+            }
+        };
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.backgroundColor = 'var(--primary)';
+            notification.style.color = 'white';
+            notification.style.padding = '10px 20px';
+            notification.style.borderRadius = 'var(--radius)';
+            notification.style.zIndex = '1000';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+
+        function calculateSubtotal() {
+            return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        }
+
+        const checkoutBtn = document.querySelector('.checkout-btn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', function() {
+                if (cart.length > 0) {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    localStorage.setItem('cartTotal', (calculateSubtotal() + 25).toFixed(2));
+                    window.location.href = "cheakout.html";
+                } else {
+                    showNotification('Your cart is empty!');
+                }
+            });
+        }
+
+        updateCartDisplay();
+
+        /* ------------------- CHAT FUNCTIONALITY ------------------- */
+        const chatInput = document.querySelector('.chat-input');
+        const chatSendBtn = document.querySelector('.chat-send-btn');
+        const chatMessages = document.querySelector('.chat-messages');
+
+        function addMessage(text, isSent) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', isSent ? 'sent' : 'received');
+
+            const messageText = document.createElement('div');
+            messageText.classList.add('message-text');
+            messageText.textContent = text;
+
+            const messageTime = document.createElement('div');
+            messageTime.classList.add('message-time');
+
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            messageTime.textContent = `${hours}:${minutes} ${ampm}`;
+
+            messageDiv.appendChild(messageText);
+            messageDiv.appendChild(messageTime);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            if (isSent) chatInput.value = '';
+        }
+
+        if (chatSendBtn) {
+            chatSendBtn.addEventListener('click', function() {
+                if (chatInput.value.trim() !== '') {
+                    addMessage(chatInput.value, true);
+                    setTimeout(function() {
+                        const replies = [
+                            "I'd be happy to tell you more about the restoration process!",
+                            "The restoration was done by our expert craftsmen using traditional techniques.",
+                            "We focused on preserving the original finish while reinforcing the structural integrity.",
+                            "Would you like to schedule a video call to see the cabinet in more detail?"
+                        ];
+                        addMessage(replies[Math.floor(Math.random() * replies.length)], false);
+                    }, 1000 + Math.random() * 2000);
+                }
+            });
+        }
+
+        if (chatInput) {
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim() !== '') chatSendBtn.click();
+            });
+        }
+
+        const contactItems = document.querySelectorAll('.contact-item');
+        contactItems.forEach(item => {
+            item.addEventListener('click', function() {
+                contactItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                const contactName = this.querySelector('.contact-name').textContent;
+                document.querySelector('.chat-partner .contact-name').textContent = contactName;
+                chatMessages.innerHTML = '';
+                addMessage(`Hello! This is ${contactName}. How can I help you today?`, false);
+            });
+        });
+
+        const newChatBtn = document.querySelector('.new-chat-btn');
+        if (newChatBtn) {
+            newChatBtn.addEventListener('click', function() {
+                contactItems.forEach(i => i.classList.remove('active'));
+                chatMessages.innerHTML = '';
+                addMessage("Hello! I'm your antique assistant. How can I help you today?", false);
+                document.querySelector('.chat-partner .contact-name').textContent = "New Conversation";
+            });
+        }
+
+        /* ------------------- COMMENTS + FAQ FUNCTIONALITY ------------------- */
+        const commentForm = document.getElementById('commentForm');
+        if (commentForm) {
+            commentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const comment = document.getElementById('comment').value;
+
+                if (name && email && comment) {
+                    alert('Thank you for your comment! It will be reviewed and published soon.');
+                    commentForm.reset();
+                } else {
+                    alert('Please fill in all required fields.');
+                }
+            });
+        }
+
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            if (question) {
+                question.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+            }
+        });
+
+        console.log('Ceylon Antiques Full Script Loaded ✅');
+    });
+</script>
+
+</body>
+</html>

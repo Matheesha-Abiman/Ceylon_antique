@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Signup - Ceylon Antique Marketplace</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            position: relative;
+        }
+
+        .container {
+            position: relative;
+            width: 850px;
+            height: 550px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            background: white;
+            overflow: hidden;
+        }
+
+        .form-box {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 40px;
+            transition: 0.6s;
+        }
+
+        .form-box.login {
+            left: 0;
+        }
+
+        .form-box.register {
+            right: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .container.active .form-box.login {
+            left: -50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .container.active .form-box.register {
+            right: 0;
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .form-box h1 {
+            font-size: 32px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            position: relative;
+            margin: 15px 0;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 12px 40px 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .input-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            cursor: pointer;
+        }
+
+        .btn {
+            width: 100%;
+            height: 45px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 0px;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .toggle-box {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: 0.6s;
+            z-index: 10;
+        }
+
+        .container.active .toggle-box {
+            left: 0;
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transition: 0.6s;
+        }
+
+        .toggle-panel.toggle-left {
+            left: 0;
+        }
+
+        .toggle-panel.toggle-right {
+            right: 0;
+            transform: translateX(100%);
+        }
+
+        .container.active .toggle-panel.toggle-left {
+            transform: translateX(-100%);
+        }
+
+        .container.active .toggle-panel.toggle-right {
+            transform: translateX(0);
+        }
+
+        .toggle-panel h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .toggle-panel p {
+            margin-bottom: 20px;
+        }
+
+        .toggle-panel .btn {
+            width: 150px;
+            background: transparent;
+            border: 2px solid white;
+        }
+
+        .toggle-panel .btn:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-box login">
+        <form id="loginForm">
+            <h1>Login</h1>
+            <div class="input-box">
+                <input type="text" id="loginUsername" placeholder="Username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <i class='bx bx-hide togglePassword' data-target="loginPassword"></i>
+            </div>
+            <button type="submit" class="btn" id="loginBtn">Login</button>
+        </form>
+    </div>
+
+    <div class="form-box register">
+        <form id="registerForm">
+            <h1>Registration</h1>
+            <div class="input-box">
+                <input type="text" id="registerUsername" placeholder="Username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <i class='bx bxs-envelope'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="registerPassword" placeholder="Password" required>
+                <i class='bx bx-hide togglePassword' data-target="registerPassword"></i>
+            </div>
+            <button type="submit" class="btn" id="registerBtn">Register</button>
+        </form>
+    </div>
+
+    <div class="toggle-box">
+        <div class="toggle-panel toggle-left">
+            <h1>Hello, Welcome!</h1>
+            <p>Don't have an account?</p>
+            <button class="btn register-btn">Register</button>
+        </div>
+
+        <div class="toggle-panel toggle-right">
+            <h1>Welcome Back!</h1>
+            <p>Already have an account?</p>
+            <button class="btn login-btn">Login</button>
+        </div>
+    </div>
+</div>
+
+<script>
+  function showSuccess(message) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: message,
+      timer: 2000,
+      showConfirmButton: false
+    });
+  }
+
+  function showError(message) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message,
+      timer: 3000
+    });
+  }
+
+  const container = document.querySelector('.container');
+  const registerBtn = document.querySelector('.register-btn');
+  const loginBtn = document.querySelector('.login-btn');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const loginButton = document.getElementById('loginBtn');
+  const registerButton = document.getElementById('registerBtn');
+
+  const possibleBackendUrls = [
+    'http://localhost:8080',
+    'http://127.0.0.1:8080'
+  ];
+
+  let API_BASE_URL = possibleBackendUrls[0];
+
+  registerBtn.addEventListener('click', () => container.classList.add('active'));
+  loginBtn.addEventListener('click', () => container.classList.remove('active'));
+
+  const toggleIcons = document.querySelectorAll('.togglePassword');
+  toggleIcons.forEach(icon => {
+    icon.addEventListener('click', () => {
+      const input = document.getElementById(icon.dataset.target);
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove('bx-hide');
+        icon.classList.add('bx-show');
+      } else {
+        input.type = "password";
+        icon.classList.remove('bx-show');
+        icon.classList.add('bx-hide');
+      }
+    });
+  });
+
+  function setCookie(name, value, daysToExpire) {
+    const date = new Date();
+    date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+  }
+
+  function setLoading(button, isLoading) {
+    if (isLoading) {
+      button.disabled = true;
+      button.innerHTML = `<span class="loading"></span> Processing...`;
+    } else {
+      button.disabled = false;
+      button.textContent = button.id === 'loginBtn' ? 'Login' : 'Register';
+    }
+  }
+
+  async function getUserRole(token) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/check-role`, {
+        headers: {'Authorization': `Bearer ${token}`}
+      });
+
+      const response2 = await fetch(`${API_BASE_URL}/auth/me`, {
+        headers: {'Authorization': `Bearer ${token}`}
+      });
+
+      if (response2.ok) {
+        const data2 = await response2.json();
+        console.log(data2);
+        sessionStorage.setItem('user', JSON.stringify(data2.data));
+        // return data.data;
+      }
+      if (response.ok) {
+        const data = await response.json();
+        return data.data;
+      }
+
+
+      return "USER";
+    } catch (error) {
+      console.error('Role check failed:', error);
+      return "USER";
+    }
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+
+    if (!username || !password) {
+      showError('Please fill all fields!');
+      return;
+    }
+
+    setLoading(loginButton, true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({username, password})
+      });
+
+      const responseData = await response.text();
+      let data;
+
+      try {
+        data = JSON.parse(responseData);
+        console.log({data})
+      } catch (e) {
+        console.error('Failed to parse response as JSON:', responseData);
+        throw new Error('Server returned invalid response');
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || `Login failed (Status: ${response.status})`);
+      }
+
+      const token = data.data.accessToken;
+      setCookie("token", token, 7);
+
+      // Get user role from backend
+      const role = await getUserRole(token);
+
+      showSuccess('Login successful!');
+      setTimeout(() => {
+        window.location.href = role === "ADMIN" ? "adminDashboard.html" : "buyerHome.html";
+      }, 1500);
+
+    } catch (error) {
+      showError(error.message);
+      console.error('Login error:', error);
+    } finally {
+      setLoading(loginButton, false);
+    }
+  });
+
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('registerUsername').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value.trim();
+
+    if (!username || !email || !password) {
+      showError('Please fill all fields!');
+      return;
+    }
+    if (password.length < 5) {
+      showError('Password must be at least 5 characters!');
+      return;
+    }
+
+    setLoading(registerButton, true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/user/adduser`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({username, email, password, role: "USER"})
+      });
+
+      const responseData = await response.text();
+      let data;
+
+      try {
+        data = JSON.parse(responseData);
+      } catch (e) {
+        console.error('Failed to parse response as JSON:', responseData);
+        throw new Error('Server returned invalid response');
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || `Registration failed (Status: ${response.status})`);
+      }
+
+      showSuccess('Registration successful! Please login.');
+      setTimeout(() => {
+        container.classList.remove('active');
+        registerForm.reset();
+      }, 1500);
+
+    } catch (error) {
+      showError(error.message);
+    } finally {
+      setLoading(registerButton, false);
+    }
+  });
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+  async function checkAuthStatus() {
+    const token = getCookie('token');
+    if (token) {
+      try {
+        const role = await getUserRole(token);
+        window.location.href = role === "ADMIN" ? "adminDashboard.html" : "buyerHome.html";
+      } catch (error) {
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      }
+    }
+  }
+
+  async function testBackendConnection() {
+    for (const url of possibleBackendUrls) {
+      try {
+        const response = await fetch(`${url}/auth/login`, {
+          method: 'OPTIONS',
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          API_BASE_URL = url;
+          return true;
+        }
+      } catch (error) {
+        console.log(`Failed to connect to ${url}`);
+      }
+    }
+
+    showError('Cannot connect to backend server. Please make sure it is running.');
+    return false;
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    await testBackendConnection();
+    checkAuthStatus();
+  });
+</script>
+</body>
+</html>

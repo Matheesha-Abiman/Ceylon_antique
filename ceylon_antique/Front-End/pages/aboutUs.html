@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Ceylon Antique Marketplace</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Your existing CSS styles are here */
+        /* I've included all the CSS from your buyer dashboard */
+        :root {
+            --primary: #7B68EE;
+            --primary-light: #9370DB;
+            --primary-dark: #6A5ACD;
+            --secondary: #FF6B8B;
+            --accent: #00CED1;
+            --ai: #20B2AA;
+            --neutral-light: #0F172A;
+            --neutral: #1E293B;
+            --neutral-dark: #334155;
+            --text: #F1F5F9;
+            --text-light: #CBD5E1;
+            --white: #FFFFFF;
+            --black: #0A0A0A;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-hover: rgba(255, 255, 255, 0.1);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.3);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            background: linear-gradient(135deg, var(--neutral-light) 0%, var(--black) 100%);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .futuristic {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: -2px;
+            right: -2px;
+            box-shadow: 0 0 10px var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--white) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .logo .badge {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--white);
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            margin-left: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav a:hover {
+            color: var(--primary-light);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius);
+            padding: 1rem;
+            z-index: 10;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .nav-dropdown-content a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.7rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .nav-dropdown-content a:hover {
+            background-color: var(--glass-hover);
+            color: var(--primary-light);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            display: flex;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .search-bar:focus-within {
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            outline: none;
+            width: 180px;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-light);
+        }
+
+        .ai-search-btn {
+            background: linear-gradient(135deg, var(--ai) 0%, var(--accent) 100%);
+            border: none;
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: var(--transition);
+        }
+
+        .ai-search-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px var(--ai);
+        }
+
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 1.3rem;
+            cursor: pointer;
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background-color: var(--glass-hover);
+            color: var(--primary-light);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary);
+            color: var(--white);
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        .profile-menu {
+            position: relative;
+        }
+
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius);
+            padding: 1rem;
+            z-index: 10;
+            margin-top: 0px;
+        }
+
+        .profile-menu:hover .profile-dropdown {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .profile-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .profile-dropdown a:hover {
+            background-color: var(--glass-hover);
+            color: var(--primary-light);
+        }
+
+        /* Hero Section */
+        .about-hero {
+            position: relative;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem 0;
+            margin-bottom: 4rem;
+            overflow: hidden;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            filter: brightness(0.3) contrast(1.2);
+            z-index: -2;
+        }
+
+        .about-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.2) 0%, rgba(0, 206, 209, 0.2) 100%);
+            z-index: -1;
+        }
+
+        .about-hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-hero h2 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 3rem;
+            color: var(--text);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* About Content */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 5rem;
+        }
+
+        .about-text h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-light);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Team Section */
+        .team-section {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 4rem 3rem;
+            margin: 4rem 0;
+            border: 1px solid var(--glass-border);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .team-member {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .member-image {
+            height: 280px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .member-name {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .member-role {
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .member-desc {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text);
+            background: var(--glass);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        /* Values Section */
+        .values-section {
+            margin: 5rem 0;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .value-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .value-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .value-desc {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            position: relative;
+            padding: 5rem 0;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 10px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .timeline-desc {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: var(--primary);
+            border: 4px solid var(--neutral);
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            right: -13px;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -13px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            color: var(--text);
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 0;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.1) 0%, rgba(0, 206, 209, 0.1) 100%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover::before {
+            opacity: 1;
+        }
+
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            color: var(--text-light);
+        }
+
+        .testimonial-text::before {
+            content: "";
+            font-size: 4rem;
+            color: rgba(123, 104, 238, 0.2);
+            position: absolute;
+            top: -20px;
+            left: -15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1;
+            position: relative;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid var(--primary-light);
+            box-shadow: 0 0 15px rgba(123, 104, 238, 0.3);
+        }
+
+        .author-info h4 {
+            margin-bottom: 0.2rem;
+            color: var(--text);
+        }
+
+        .author-info p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Floating elements for visual interest */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(123, 104, 238, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 20%;
+            right: 5%;
+            animation-delay: 1s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--ai) 0%, var(--accent) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(32, 178, 170, 0.4);
+            z-index: 999;
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+
+        .ai-assistant:hover {
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--neutral);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+            opacity: 0.05;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-col p {
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+            position: relative;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(123, 104, 238, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(123, 104, 238, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(123, 104, 238, 0); }
+        }
+
+        @keyframes slideInFromRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .about-hero h2 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .about-hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-item:nth-child(odd)::after,
+            .timeline-item:nth-child(even)::after {
+                left: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .user-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .search-bar {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .search-bar input {
+                width: 100%;
+            }
+
+            .about-hero h2 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .team-grid,
+            .values-grid,
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div class="container header-container">
+        <div class="logo">
+            <i class='bx bx-time-five logo-icon'></i>
+            <h1>Ceylon Antiques</h1>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="buyerHome.html"><i class='bx bx-home'></i> Home</a></li>
+                <li><a href="buyerDashboard.html"><i class='bx bx-dashboard'></i> Dashboard</a></li>
+                <li class="nav-dropdown">
+                    <a href="#"><i class='bx bx-file'></i> Pages <i class='bx bx-chevron-down'></i></a>
+                    <div class="nav-dropdown-content">
+                        <a href="blogs.html"><i class='bx bx-news'></i> Blog</a>
+                        <a href="comments.html"><i class='bx bx-comment'></i> Leave Comments</a>
+                    </div>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="#"><i class='bx bx-category'></i> Others <i class='bx bx-chevron-down'></i></a>
+                    <div class="nav-dropdown-content">
+                        <a href="chat.html"><i class='bx bx-chat'></i> Chatting</a>
+                    </div>
+                </li>
+                <li><a href="aboutUs.html"><i class='bx bx-info-circle'></i> About Us</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-actions">
+            <div class="search-bar">
+                <input type="text" placeholder="Search antiques...">
+                <i class='bx bx-search'></i>
+            </div>
+
+            <button class="icon-btn">
+                <i class='bx bx-heart'></i>
+            </button>
+
+            <a href="shoppingCart.html">
+                <button class="icon-btn">
+                    <i class='bx bx-cart'></i>
+                    <span class="cart-count">3</span>
+                </button>
+            </a>
+
+            <div class="profile-menu">
+                <button class="icon-btn">
+                    <i class='bx bx-user'></i>
+                </button>
+                <div class="profile-dropdown">
+                    <a href="buyerProfile.html" id="profileBtn"><i class='bx bx-user'></i> Profile</a>
+                    <a href="index.html" id="logoutBtn"><i class='bx bx-log-out'></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="container">
+        <div class="about-hero-content">
+            <h2>Our Story of Preserving Heritage</h2>
+            <p>For over three decades, Ceylon Antiques has been dedicated to preserving and sharing the rich cultural heritage of Sri Lanka through authentic antiques and collectibles.</p>
+        </div>
+    </div>
+</section>
+
+<!-- About Content Section -->
+<section class="section">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Our Journey</h3>
+                <p>Founded in 1990 by renowned antique collector Rohan Perera, Ceylon Antiques began as a small gallery in Colombo dedicated to preserving Sri Lanka's rich cultural heritage. What started as a passion project has grown into Sri Lanka's most trusted marketplace for authentic antiques.</p>
+                <p>Over the years, we've built relationships with collectors, historians, and preservation societies across the island, allowing us to source the most exquisite pieces while ensuring their historical authenticity.</p>
+                <p>Today, we continue our founder's vision by connecting discerning collectors with pieces that tell the story of Sri Lanka's fascinating history, from ancient kingdoms to colonial eras.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Our antique gallery">
+            </div>
+        </div>
+
+        <div class="about-content reverse">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1582006941066-0b6b2c4bf649?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Authenticity process">
+            </div>
+            <div class="about-text">
+                <h3>Our Authentication Process</h3>
+                <p>At Ceylon Antiques, we understand that authenticity is paramount when dealing with historical artifacts. That's why we've developed a rigorous multi-step authentication process that every item must pass before being offered to our clients.</p>
+                <p>Our team of experts includes historians, material scientists, and conservation specialists who examine each piece for historical accuracy, material composition, and preservation needs.</p>
+                <p>We provide detailed certificates of authenticity with every purchase, ensuring that you can buy with confidence and preserve your investment for generations to come.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="section team-section">
+    <div class="container">
+        <h2 class="section-title">Meet Our Experts</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-image" style="background-image: url('https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
+                <div class="member-info">
+                    <h3 class="member-name">Rohan Perera</h3>
+                    <p class="member-role">Founder & Lead Curator</p>
+                    <p class="member-desc">With over 40 years of experience in antique preservation, Rohan's expertise in Ceylon antiquities is unparalleled.</p>
+                    <div class="social-links">
+                        <a href="#"><i class='bx bxl-twitter'></i></a>
+                        <a href="#"><i class='bx bxl-linkedin'></i></a>
+                        <a href="#"><i class='bx bxl-instagram'></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-image" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
+                <div class="member-info">
+                    <h3 class="member-name">Priya Fernando</h3>
+                    <p class="member-role">Head of Authentication</p>
+                    <p class="member-desc">Priya holds a PhD in South Asian Art History and specializes in dating and verifying colonial-era artifacts.</p>
+                    <div class="social-links">
+                        <a href="#"><i class='bx bxl-twitter'></i></a>
+                        <a href="#"><i class='bx bxl-linkedin'></i></a>
+                        <a href="#"><i class='bx bxl-instagram'></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-image" style="background-image: url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
+                <div class="member-info">
+                    <h3 class="member-name">David Chen</h3>
+                    <p class="member-role">Conservation Specialist</p>
+                    <p class="member-desc">David brings expertise in preserving delicate materials, with special training in textile and wood conservation.</p>
+                    <div class="social-links">
+                        <a href="#"><i class='bx bxl-twitter'></i></a>
+                        <a href="#"><i class='bx bxl-linkedin'></i></a>
+                        <a href="#"><i class='bx bxl-instagram'></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-image" style="background-image: url('https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
+                <div class="member-info">
+                    <h3 class="member-name">Anjali Ratnayake</h3>
+                    <p class="member-role">Client Relations</p>
+                    <p class="member-desc">Anjali ensures our clients receive personalized service and guidance in building their collections.</p>
+                    <div class="social-links">
+                        <a href="#"><i class='bx bxl-twitter'></i></a>
+                        <a href="#"><i class='bx bxl-linkedin'></i></a>
+                        <a href="#"><i class='bx bxl-instagram'></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="section values-section">
+    <div class="container">
+        <h2 class="section-title">Our Values</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class='bx bx-check-shield'></i>
+                </div>
+                <h3 class="value-title">Authenticity</h3>
+                <p class="value-desc">Every item in our collection undergoes rigorous verification to ensure its historical accuracy and provenance.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class='bx bx-heart'></i>
+                </div>
+                <h3 class="value-title">Preservation</h3>
+                <p class="value-desc">We're committed to preserving cultural heritage for future generations through proper conservation techniques.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class='bx bx-group'></i>
+                </div>
+                <h3 class="value-title">Education</h3>
+                <p class="value-desc">We believe in sharing knowledge about Sri Lanka's history and the stories behind each antique piece.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class='bx bx-handicap'></i>
+                </div>
+                <h3 class="value-title">Ethical Sourcing</h3>
+                <p class="value-desc">All our items are sourced through legal and ethical channels, with respect for cultural heritage laws.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="section timeline-section">
+    <div class="container">
+        <h2 class="section-title">Our History</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1990</div>
+                    <h3 class="timeline-title">Foundation</h3>
+                    <p class="timeline-desc">Rohan Perera opens a small gallery in Colombo specializing in Ceylon antiques.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1998</div>
+                    <h3 class="timeline-title">Expansion</h3>
+                    <p class="timeline-desc">We open our second location in Kandy and establish relationships with international collectors.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2005</div>
+                    <h3 class="timeline-title">Digital Presence</h3>
+                    <p class="timeline-desc">Launch of our first website, making Ceylon antiques accessible to collectors worldwide.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2012</div>
+                    <h3 class="timeline-title">Authentication Lab</h3>
+                    <p class="timeline-desc">Establishment of our state-of-the-art authentication laboratory with advanced dating technology.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2020</div>
+                    <h3 class="timeline-title">Virtual Museum</h3>
+                    <p class="timeline-desc">Launch of our virtual museum, allowing global access to rare pieces from our collection.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2023</div>
+                    <h3 class="timeline-title">AR Experience</h3>
+                    <p class="timeline-desc">Introduction of augmented reality features for virtual viewing of antiques in your space.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section testimonials">
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <div class="container">
+        <h2 class="section-title">What Our Clients Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    As a museum curator, I appreciate the meticulous documentation and authentication that Ceylon Antiques provides with each piece. Their expertise is unmatched in the field.
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+                    <div class="author-info">
+                        <h4>Dr. James Wilson</h4>
+                        <p>Museum Curator, London</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    Building my collection of Kandyan era artifacts has been made effortless thanks to the knowledgeable team at Ceylon Antiques. Their personalized service is exceptional.
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                    <div class="author-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Private Collector, New York</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    The restoration work done on my family's colonial-era desk was exceptional. It's as beautiful now as it was when my great-grandfather first acquired it.
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/67.jpg');"></div>
+                    <div class="author-info">
+                        <h4>Ravi De Silva</h4>
+                        <p>Colombo, Sri Lanka</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AI Assistant (Chat Bot) -->
+<div class="ai-assistant">
+    <i class='bx bx-home'></i>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Ceylon Antiques</h3>
+                <p>Preserving and sharing the rich heritage of Sri Lanka through authentic antiques and collectibles.</p>
+                <div class="social-links">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-pinterest'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Collections</a></li>
+                    <li><a href="#">Authentication Process</a></li>
+                    <li><a href="#">Shipping Information</a></li>
+                    <li><a href="#">Care Guide</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <p><i class='bx bx-map'></i> 123 Galle Road, Colombo, Sri Lanka</p>
+                <p><i class='bx bx-phone'></i> +94 11 234 5678</p>
+                <p><i class='bx bx-envelope'></i> info@ceylonantiques.lk</p>
+                <p><i class='bx bx-time'></i> Mon-Sat: 9AM - 6PM</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2023 Ceylon Antiques. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // =========================
+        // Search functionality
+        // =========================
+        const searchInput = document.querySelector('.search-bar input');
+        const searchIcon = document.querySelector('.search-bar .bx-search');
+
+        function performSearch() {
+            if (searchInput && searchInput.value.trim() !== '') {
+                alert(`Searching for: ${searchInput.value}`);
+                searchInput.value = '';
+            }
+        }
+
+        if (searchIcon && searchInput) {
+            searchIcon.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch();
+            });
+        }
+
+        // =========================
+        // Profile navigation
+        // =========================
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn) {
+            profileBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'buyerProfile.html';
+            });
+        }
+
+        // =========================
+        // Logout functionality
+        // =========================
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Clear token/cookie
+                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
+
+                alert('You have been logged out successfully.');
+                window.location.href = 'index.html';
+            });
+        }
+
+        // =========================
+        // Testimonial animation
+        // =========================
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        function checkScroll() {
+            testimonialCards.forEach(card => {
+                const cardPosition = card.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                if (cardPosition < screenPosition) {
+                    card.classList.add('visible');
+                }
+            });
+        }
+        checkScroll();
+        window.addEventListener('scroll', checkScroll);
+
+        console.log('Ceylon Antiques About Us Page Loaded');
+    });
+</script>
+
+</body>
+</html>
